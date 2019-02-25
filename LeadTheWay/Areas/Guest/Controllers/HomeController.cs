@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LeadTheWay.Models;
 
-namespace LeadTheWay.Controllers
+namespace LeadTheWay.Areas.Guest.Controllers
 {
+    [Area("Guest")]
     public class HomeController : Controller
     {
         public IActionResult Index()
