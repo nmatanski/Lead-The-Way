@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using LeadTheWay.Models;
-using LeadTheWay.Models.GraphLayer.GraphLayer.Models;
+using LeadTheWay.GraphLayer.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

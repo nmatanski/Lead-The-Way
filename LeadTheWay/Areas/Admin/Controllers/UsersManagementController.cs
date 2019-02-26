@@ -12,12 +12,12 @@ namespace LeadTheWay.Areas.Admin.Controllers
 {
     [Authorize(Roles = StaticDetails.AdminUser)]
     [Area("Admin")]
-    public class UsersManagement : Controller
+    public class UsersManagementController : Controller
     {
         private readonly ApplicationDbContext db;
 
 
-        public UsersManagement(ApplicationDbContext db)
+        public UsersManagementController(ApplicationDbContext db)
         {
             this.db = db;
         }

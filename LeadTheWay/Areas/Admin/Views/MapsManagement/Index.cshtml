@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<LeadTheWay.GraphLayer.Models.GraphMap>
+
+
+<h2>Index</h2>
+
+@if (Model == null)
+{
+    <h3>There are no maps in the DB.</h3>
+    <a class="nav-link" asp-area="Admin" asp-controller="MapsManagement" asp-action="Create">Create New Map</a>
+}
+else
+{
+    <h3>There is at least one map in the DB!</h3>
+}

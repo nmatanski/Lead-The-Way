@@ -15,7 +15,6 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Guest\Models\" />
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Areas\User\Controllers\" />
     <Folder Include="Areas\User\Models\" />
     <Folder Include="Controllers\" />
   </ItemGroup>

@@ -39,10 +39,19 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    @if (User.IsInRole(StaticDetails.EndUser) || User.IsInRole(StaticDetails.AdminUser))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="User" asp-controller="Map" asp-action="Index">Let Me Lead The Way</a>
+                        </li>
+                    }
                     @if (User.IsInRole(StaticDetails.AdminUser))
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="UsersManagement" asp-action="Index">All Users</a>
+                            <a class="nav-link" asp-area="Admin" asp-controller="UsersManagement" asp-action="Index">Manage Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-controller="MapsManagement" asp-action="Index">Map Management</a>
                         </li>
                     }
                 </ul>

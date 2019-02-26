@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LeadTheWay.Models.GraphLayer.GraphLayer.Models
+namespace LeadTheWay.GraphLayer.Models
 {
     public class GraphMap
     {
