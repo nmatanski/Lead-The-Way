@@ -1,7 +1,11 @@
-﻿using System;
+﻿using LeadTheWay.GraphLayer.Map.Domain.Search;
+using LeadTheWay.GraphLayer.Map.Service;
+using LeadTheWay.GraphLayer.Map.Service.Search.Services.Utility;
+using LeadTheWay.GraphLayer.Vertex.Service;
+using System;
 using System.Collections.Generic;
 
-namespace LeadTheWay.Models.GraphLayer
+namespace LeadTheWay.GraphLayer.Map.Service.Search.Services
 {
     public class PathWithIntermediatePointsSearch
     {

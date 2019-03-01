@@ -1,7 +1,9 @@
-﻿using System;
+﻿using LeadTheWay.GraphLayer.Link.Service;
+using LeadTheWay.GraphLayer.Vertex.Service;
+using System;
 using System.Collections.Generic;
 
-namespace LeadTheWay.Models.GraphLayer
+namespace LeadTheWay.GraphLayer.Map.Service.Search.Services.Utility
 {
     public static class GraphUtil
     {

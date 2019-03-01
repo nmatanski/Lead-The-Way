@@ -1,4 +1,4 @@
-﻿using LeadTheWay.Models.GraphLayer;
+﻿using LeadTheWay.GraphLayer.Map.Service;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

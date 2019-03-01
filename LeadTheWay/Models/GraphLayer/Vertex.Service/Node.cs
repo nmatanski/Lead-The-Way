@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using LeadTheWay.GraphLayer.Link.Service;
 
-namespace LeadTheWay.Models.GraphLayer
+namespace LeadTheWay.GraphLayer.Vertex.Service
 {
     public class Node : INode
     {

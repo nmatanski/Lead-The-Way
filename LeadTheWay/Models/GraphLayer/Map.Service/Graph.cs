@@ -1,9 +1,14 @@
-﻿using System;
+﻿using LeadTheWay.GraphLayer.Link.Domain.Models;
+using LeadTheWay.GraphLayer.Link.Service;
+using LeadTheWay.GraphLayer.Map.Domain.Search;
+using LeadTheWay.GraphLayer.Map.Service.Search.Services;
+using LeadTheWay.GraphLayer.Vertex.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LeadTheWay.Models.GraphLayer
+namespace LeadTheWay.GraphLayer.Map.Service
 {
     public class Graph
     {
