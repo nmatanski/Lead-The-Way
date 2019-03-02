@@ -2,27 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LeadTheWay.Data;
+using LeadTheWay.GraphLayer.Link.Domain.Models;
+using LeadTheWay.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeadTheWay.Areas.Admin.Controllers
 {
+    [Authorize(Roles = StaticDetails.AdminUser)]
+    [Area("Admin")]
     public class EdgesController : Controller
     {
-        // GET: Edges
-        public ActionResult Index()
+        private readonly ApplicationDbContext db;
+
+
+        public EdgesController(ApplicationDbContext db)
         {
-            return View();
+            this.db = db;
         }
 
-        // GET: Edges/Details/5
-        public ActionResult Details(int id)
+
+        // GET: Edges
+        public IActionResult Index()
         {
-            return View();
+            return View(db.IntercityLinks.ToList());
         }
 
         // GET: Edges/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -30,64 +39,99 @@ namespace LeadTheWay.Areas.Admin.Controllers
         // POST: Edges/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(IntercityLink edge)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                db.Add(edge);
+                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(edge);
         }
 
         // GET: Edges/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var edge = await db.IntercityLinks.FindAsync(id);
+
+            if (edge == null)
+            {
+                return NotFound();
+            }
+
+            return View(edge);
         }
 
         // POST: Edges/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, IntercityLink edge)
         {
-            try
+            if (id != edge.Id)
             {
-                // TODO: Add update logic here
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                db.Update(edge);
+                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            return View(edge);
+        }
+
+        // GET: Edges/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
             {
-                return View();
+                return NotFound();
             }
+
+            var edge = await db.IntercityLinks.FindAsync(id);
+
+            if (edge == null)
+            {
+                return NotFound();
+            }
+
+            return View(edge);
         }
 
         // GET: Edges/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var edge = await db.IntercityLinks.FindAsync(id);
+
+            if (edge == null)
+            {
+                return NotFound();
+            }
+
+            return View(edge);
         }
 
         // POST: Edges/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var edge = await db.IntercityLinks.FindAsync(id);
+            db.IntercityLinks.Remove(edge);
+            await db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -3,6 +3,7 @@ using LeadTheWay.GraphLayer.Link.Service;
 using LeadTheWay.GraphLayer.Map.Domain.Search;
 using LeadTheWay.GraphLayer.Map.Service.Search.Services;
 using LeadTheWay.GraphLayer.Vertex.Service;
+using LeadTheWay.Models.GraphLayer.Map.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,16 @@ using System.Threading.Tasks;
 
 namespace LeadTheWay.GraphLayer.Map.Service
 {
-    public class Graph
+    public class Graph : IGraph
     {
-        public Dictionary<string, Node> Map { get; set; } = new Dictionary<string, Node>();
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string GraphString { get; set; }
+
+
+        public Dictionary<string, Node> Map { get; set; } = new Dictionary<string, Node>(); ///TODO: set map.add(GraphString.ToGraph())
 
         public static string Path { get; set; }
         public bool Err { get; private set; }

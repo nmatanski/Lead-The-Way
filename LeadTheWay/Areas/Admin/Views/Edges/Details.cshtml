@@ -1,0 +1,55 @@
+﻿@model LeadTheWay.GraphLayer.Link.Domain.Models.IntercityLink
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>IntercityLink</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EdgeString)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EdgeString)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Length)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Length)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DurationTicks)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DurationTicks)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceClass)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ServiceClass)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TimetableString)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TimetableString)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

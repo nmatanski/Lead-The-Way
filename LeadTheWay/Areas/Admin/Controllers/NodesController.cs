@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LeadTheWay.Data;
+using LeadTheWay.GraphLayer.Vertex.Domain.Models;
 using LeadTheWay.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,28 +15,19 @@ namespace LeadTheWay.Areas.Admin.Controllers
     [Area("Admin")]
     public class NodesController : Controller
     {
-        //[BindProperty]
-        //public TransportVertex NodeVM { get; set; }
-
         private readonly ApplicationDbContext db;
+
 
         public NodesController(ApplicationDbContext db)
         {
             this.db = db;
-
-            //NodeVM = new NodeViewModel();
         }
+
 
         //GET: Nodes
         public IActionResult Index()
         {
-            return View();
-        }
-
-        // GET: Nodes/Details/5
-        public IActionResult Details(int id)
-        {
-            return View();
+            return View(db.TransportVertices.ToList());
         }
 
         // GET: Nodes/Create
@@ -47,64 +39,99 @@ namespace LeadTheWay.Areas.Admin.Controllers
         // POST: Nodes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(TransportVertex node)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                db.Add(node);
+                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(node);
         }
 
         // GET: Nodes/Edit/5
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var node = await db.TransportVertices.FindAsync(id);
+
+            if (node == null)
+            {
+                return NotFound();
+            }
+
+            return View(node);
         }
 
         // POST: Nodes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, TransportVertex node)
         {
-            try
+            if (id != node.Id)
             {
-                // TODO: Add update logic here
+                return NotFound();
+            }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                db.Update(node);
+                await db.SaveChangesAsync();
+                return RedirectToAction(nameof(Index)); 
             }
+            return View(node);
+        }
+
+        // GET: Nodes/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var node = await db.TransportVertices.FindAsync(id);
+
+            if (node == null)
+            {
+                return NotFound();
+            }
+
+            return View(node);
         }
 
         // GET: Nodes/Delete/5
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var node = await db.TransportVertices.FindAsync(id);
+
+            if (node == null)
+            {
+                return NotFound();
+            }
+
+            return View(node);
         }
 
         // POST: Nodes/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var node = await db.TransportVertices.FindAsync(id);
+            db.TransportVertices.Remove(node);
+            await db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

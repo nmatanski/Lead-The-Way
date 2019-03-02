@@ -7,11 +7,9 @@
 @model IEnumerable<LeadTheWay.GraphLayer.Vertex.Domain.Models.TransportVertex>
 
 
-<br /><br />
-
 <div class="row">
     <div class="col-6">
-        <h2 class="text-info">Users List</h2>
+        <h2 class="text-info">Nodes List</h2>
     </div>
     <div class="col-6 text-right">
         <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Node</a>
@@ -20,30 +18,34 @@
 
 <div>
     <table class="table table-striped border">
-        <tr class="table-info">
-            <th>
-                @Html.DisplayNameFor(m => m.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(m => m.Description)
-            </th>
-            <th>
+        <thead>
+            <tr class="table-info">
+                <th>
+                    @Html.DisplayNameFor(m => m.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Description)
+                </th>
+                <th>
 
-            </th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.Description)
-                </td>
-                <td>
-
-                </td>
+                </th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Description)
+                    </td>
+                    <td>
+                        <partial name="_TableButtonPartial" model="item.Id" />
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
