@@ -1,4 +1,5 @@
-﻿using LeadTheWay.GraphLayer.Map.Service;
+﻿using LeadTheWay.GraphLayer.Map.Domain.Models;
+using LeadTheWay.GraphLayer.Map.Service;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace LeadTheWay.Models
         public string GraphString { get; set; }
 
         [NotMapped]
-        public Graph Graph { get; set; }
+        public GraphMap GraphEntity { get; set; }
 
         [NotMapped]
         public bool IsAdmin { get; set; }

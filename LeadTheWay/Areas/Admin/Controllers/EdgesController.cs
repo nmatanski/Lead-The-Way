@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using LeadTheWay.Data;
 using LeadTheWay.GraphLayer.Link.Domain.Models;
+using LeadTheWay.Models.ViewModels;
 using LeadTheWay.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeadTheWay.Areas.Admin.Controllers
 {
@@ -17,10 +19,20 @@ namespace LeadTheWay.Areas.Admin.Controllers
     {
         private readonly ApplicationDbContext db;
 
+        [BindProperty]
+        public EdgeViewModel EdgeVM { get; set; }
+
 
         public EdgesController(ApplicationDbContext db)
         {
             this.db = db;
+
+            EdgeVM = new EdgeViewModel()
+            {
+                Edge = new IntercityLink(),
+                Nodes = db.TransportVertices.ToList()
+            };
+            EdgeVM.Edge.NodesPair = new VerticesPair();
         }
 
 
@@ -33,21 +45,31 @@ namespace LeadTheWay.Areas.Admin.Controllers
         // GET: Edges/Create
         public IActionResult Create()
         {
-            return View();
+            return View(EdgeVM);
         }
 
         // POST: Edges/Create
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IntercityLink edge)
+        public async Task<IActionResult> CreatePost()
         {
-            if (ModelState.IsValid)
-            {
-                db.Add(edge);
-                await db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(edge);
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(EdgeVM);
+            //}
+            var edge = EdgeVM.Edge;
+            var firstNode = await db.TransportVertices.Where(n => n.Id == edge.NodesPair.FirstNodeId).FirstOrDefaultAsync();
+            var relatedNode = await db.TransportVertices.Where(n => n.Id == edge.NodesPair.RelatedNodeId).FirstOrDefaultAsync();
+            string isDirected = EdgeVM.IsDirected ? "->" : "<->";
+
+            edge.EdgeString = $"{firstNode.Name}{isDirected}{relatedNode.Name}";
+
+            edge.DurationTicks = EdgeVM.DurationSpan.Ticks;
+
+            db.IntercityLinks.Add(edge);
+            await db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Edges/Edit/5

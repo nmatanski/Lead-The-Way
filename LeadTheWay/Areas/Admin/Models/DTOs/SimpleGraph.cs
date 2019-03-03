@@ -4,15 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LeadTheWay.GraphLayer.Vertex.Domain.Models
+namespace LeadTheWay.Areas.Admin.Models.DTOs
 {
-    public class TransportVertex : IVertex
+    public class SimpleGraph
     {
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        [Required]
+        public bool IsDefault { get; set; }
     }
 }

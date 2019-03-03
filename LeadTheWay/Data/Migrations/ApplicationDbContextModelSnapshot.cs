@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LeadTheWay.Data.Migrations
+namespace LeadTheWay.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -49,9 +49,16 @@ namespace LeadTheWay.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("EdgeHistoryString");
+
                     b.Property<string>("GraphString");
 
-                    b.Property<string>("Name");
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("NodeHistoryString");
 
                     b.HasKey("Id");
 
@@ -66,7 +73,8 @@ namespace LeadTheWay.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

@@ -16,9 +16,9 @@ namespace LeadTheWay.Data
 
         public DbSet<GraphMap> GraphMaps { get; set; }
 
-        public DbSet<IntercityLink> IntercityLinks { get; set; }
-
         public DbSet<TransportVertex> TransportVertices { get; set; }
+
+        public DbSet<IntercityLink> IntercityLinks { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

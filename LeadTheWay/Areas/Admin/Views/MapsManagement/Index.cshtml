@@ -7,7 +7,6 @@
 
 <h2>Index</h2>
 
-
 @if (Model == null)
 {
     <h3>There are no maps in the DB.</h3>
@@ -17,21 +16,26 @@
 <p>
     <a class="nav-link" asp-area="Admin" asp-controller="MapsManagement" asp-action="Create">Create New Map</a>
 </p>
-<div>
-    <table class="table table-striped border">
-        <thead>
-            <tr class="table-info">
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.GraphString)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+
+<table class="table table-striped border">
+    <thead>
+        <tr class="table-info">
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraphString)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDefault)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.IsDefault)
             {
                 <tr>
                     <td>
@@ -41,10 +45,13 @@
                         @Html.DisplayFor(modelItem => item.GraphString)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.IsDefault)
+                    </td>
+                    <td>
                         <partial name="_TableButtonPartial" model="item.Id" />
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
-</div>
+        }
+    </tbody>
+</table>

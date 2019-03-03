@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LeadTheWay.Data.Migrations
+namespace LeadTheWay.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190226113058_AddGraphMapTable")]
-    partial class AddGraphMapTable
+    [Migration("20190303035803_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,17 +21,66 @@ namespace LeadTheWay.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LeadTheWay.GraphLayer.Models.GraphMap", b =>
+            modelBuilder.Entity("LeadTheWay.GraphLayer.Link.Domain.Models.IntercityLink", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("DurationTicks")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EdgeString");
+
+                    b.Property<double>("Length");
+
+                    b.Property<double>("Price");
+
+                    b.Property<byte>("ServiceClass");
+
+                    b.Property<string>("TimetableString");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IntercityLinks");
+                });
+
+            modelBuilder.Entity("LeadTheWay.GraphLayer.Map.Domain.Models.GraphMap", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EdgeHistoryString");
+
                     b.Property<string>("GraphString");
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("NodeHistoryString");
 
                     b.HasKey("Id");
 
                     b.ToTable("GraphMaps");
+                });
+
+            modelBuilder.Entity("LeadTheWay.GraphLayer.Vertex.Domain.Models.TransportVertex", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransportVertices");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

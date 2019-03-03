@@ -1,4 +1,6 @@
-﻿@model LeadTheWay.GraphLayer.Link.Domain.Models.IntercityLink
+﻿@using LeadTheWay.Extensions
+
+@model LeadTheWay.Models.ViewModels.EdgeViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,35 +15,42 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EdgeString" class="control-label"></label>
-                <input asp-for="EdgeString" class="form-control" />
-                <span asp-validation-for="EdgeString" class="text-danger"></span>
+            <div class="form-group col-xs-5">
+                <label asp-for="Nodes" class="sr-only"></label>
+                <select asp-for="@Model.Edge.NodesPair.FirstNodeId" asp-items='Model.Nodes.ToSelectListItem(Model.Edge.NodesPair.FirstNodeId, "Name")' class="form-control input-group-lg"></select>
+            </div>
+            <div class="form-group col-xs-2">
+                <input type="checkbox" asp-for="IsDirected" />
+                <label><b>-></b></label>
+            </div>
+            <div class="form-group col-xs-5">
+                <label asp-for="Nodes" class="sr-only"></label>
+                <select asp-for="@Model.Edge.NodesPair.RelatedNodeId" asp-items='Model.Nodes.ToSelectListItem(Model.Edge.NodesPair.RelatedNodeId, "Name")' class="form-control input-group-lg"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Length" class="control-label"></label>
-                <input asp-for="Length" class="form-control" />
-                <span asp-validation-for="Length" class="text-danger"></span>
+                <label asp-for="Edge.Length" class="control-label"></label>
+                <input asp-for="Edge.Length" class="form-control" />
+                <span asp-validation-for="Edge.Length" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DurationTicks" class="control-label"></label>
-                <input asp-for="DurationTicks" class="form-control" />
-                <span asp-validation-for="DurationTicks" class="text-danger"></span>
+                <label asp-for="Duration" class="control-label"></label> <b>(minutes)</b>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="Edge.Price" class="control-label"></label>
+                <input asp-for="Edge.Price" class="form-control" />
+                <span asp-validation-for="Edge.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ServiceClass" class="control-label"></label>
-                <input asp-for="ServiceClass" class="form-control" />
-                <span asp-validation-for="ServiceClass" class="text-danger"></span>
+                <label asp-for="Edge.ServiceClass" class="control-label"></label>
+                <input asp-for="Edge.ServiceClass" class="form-control" />
+                <span asp-validation-for="Edge.ServiceClass" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TimetableString" class="control-label"></label>
-                <input asp-for="TimetableString" class="form-control" />
-                <span asp-validation-for="TimetableString" class="text-danger"></span>
+                <label asp-for="Edge.TimetableString" class="control-label"></label>
+                <input asp-for="Edge.TimetableString" class="form-control" />
+                <span asp-validation-for="Edge.TimetableString" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -55,5 +64,5 @@
 </div>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

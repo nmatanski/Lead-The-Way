@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LeadTheWay.GraphLayer.Vertex.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace LeadTheWay.GraphLayer.Link.Domain.Models
         public int Id { get; set; }
 
         public string EdgeString { get; set; } //FirstNode, RelatedNode - format
+
+        [NotMapped]
+        public VerticesPair NodesPair { get; set; }
 
         public double Length { get; set; } //feature
 
