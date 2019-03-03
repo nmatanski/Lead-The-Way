@@ -20,6 +20,6 @@ namespace LeadTheWay.Models.ViewModels
 
         public TimeSpan DurationSpan { get => TimeSpan.FromMinutes(Duration); }
 
-        public int Duration { get; set; }
+        public uint Duration { get; set; }
     }
 }

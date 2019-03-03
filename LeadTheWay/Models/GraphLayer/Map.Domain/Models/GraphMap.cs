@@ -33,5 +33,8 @@ namespace LeadTheWay.GraphLayer.Map.Domain.Models
 
         [NotMapped]
         public Graph Graph { get; set; }
+
+        [NotMapped]
+        public int CurrentEdgeIdToAdd { get; set; }
     }
 }

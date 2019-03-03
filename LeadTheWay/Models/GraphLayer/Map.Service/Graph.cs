@@ -1,5 +1,6 @@
 ﻿using LeadTheWay.GraphLayer.Link.Domain.Models;
 using LeadTheWay.GraphLayer.Link.Service;
+using LeadTheWay.GraphLayer.Map.Domain.Models;
 using LeadTheWay.GraphLayer.Map.Domain.Search;
 using LeadTheWay.GraphLayer.Map.Service.Search.Services;
 using LeadTheWay.GraphLayer.Vertex.Service;
@@ -36,6 +37,7 @@ namespace LeadTheWay.GraphLayer.Map.Service
             if (Map.ContainsKey(start) && Map.ContainsKey(end))
             {
                 Edge edge = new Edge(Map[start], Map[end], length, duration, price, serviceClass, timetable); //type
+                edge.FirstNode = Map[start]; ///TODO: test
                 Map[start].Edges.Add(edge);
                 Err = false;
             }
@@ -83,15 +85,28 @@ namespace LeadTheWay.GraphLayer.Map.Service
             return s.Result;
         }
 
-        public string ToString(string edges)
-        {
-            string nodes = "";
-            ///TODO:
-            //foreach (KeyValuePair<string, Node> node in Map)
-            //    nodes += '#' + node.Value.Name + ',' + node.Value.Weight + ',' + node.Value.Coordinates[0] + ',' + node.Value.Coordinates[1] + "#\n";
+        //public static string ToString(GraphMap graphMap, List<string> edgeHistory) //string edges
+        //{
+        //    //string nodes = "";
+        //    /////TODO:
+        //    ////foreach (KeyValuePair<string, Node> node in Map)
+        //    ////    nodes += '#' + node.Value.Name + ',' + node.Value.Weight + ',' + node.Value.Coordinates[0] + ',' + node.Value.Coordinates[1] + "#\n";
 
-            return nodes + edges;
-        }
+        //    //return nodes + edges;
+
+        //    var ns = "";
+        //    foreach (var kvp in graphMap.Graph.Map)
+        //    {
+        //        ns += $"*{kvp.Key}({kvp.Value.Description})";
+        //    }
+        //    var es = "";
+        //    foreach (var item in edgeHistory)
+        //    {
+        //        var tempEdge = await db.IntercityLinks.Where(e => e.EdgeString == item).FirstOrDefaultAsync();
+        //        es += $"#{item}({tempEdge.Length}, {tempEdge.DurationTicks}, {tempEdge.Price}, {tempEdge.ServiceClass})";
+        //    }
+        //    var gstring = ns + es;
+        //}
     }
 }
     

@@ -39,6 +39,7 @@ namespace LeadTheWay.GraphLayer.Vertex.Service
             Name = name;
             Description = description;
             Parent = null;
+            Edges = new List<Edge>(); ///TODO: TEST
         }
 
 

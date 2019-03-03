@@ -1,0 +1,63 @@
+﻿@using LeadTheWay.Extensions
+
+@model LeadTheWay.Models.ViewModels.GraphMapViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>GraphMap</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="GraphMap.Id" />
+            <div class="form-group">
+                <label asp-for="GraphMap.Name" class="control-label"></label>
+                <input asp-for="GraphMap.Name" class="form-control" />
+                <span asp-validation-for="GraphMap.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group col-xs-5">
+                <label asp-for="Edges" class="sr-only"></label>
+                <select asp-for="@Model.GraphMap.CurrentEdgeIdToAdd" asp-items='Model.Edges.ToSelectListItem(Model.GraphMap.CurrentEdgeIdToAdd, "EdgeString")' class="form-control input-group-lg"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="GraphMap.GraphString" class="control-label"></label>
+                @*<input asp-for="GraphMap.GraphString" readonly  class="form-control" />*@
+                @Html.DisplayFor(model => model.GraphMap.GraphString)
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="GraphMap.IsDefault" /> @Html.DisplayNameFor(model => model.GraphMap.IsDefault)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="GraphMap.NodeHistoryString" class="control-label"></label>
+                @*<input asp-for="GraphMap.NodeHistoryString" class="form-control" />*@
+                @Html.DisplayFor(model => model.GraphMap.NodeHistoryString)
+            </div>
+            <div class="form-group">
+                <label asp-for="GraphMap.EdgeHistoryString" class="control-label"></label>
+                @*<input asp-for="GraphMap.EdgeHistoryString" class="form-control" />*@
+                @Html.DisplayFor(model => model.GraphMap.EdgeHistoryString)
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
