@@ -1,0 +1,68 @@
+﻿@using LeadTheWay.Extensions
+
+@model LeadTheWay.Models.ViewModels.EdgeViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>IntercityLink</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-xs-5">
+                <label asp-for="Nodes" class="sr-only"></label>
+                <select asp-for="@Model.Edge.NodesPair.FirstNodeId" asp-items='Model.Nodes.ToSelectListItem(Model.Edge.NodesPair.FirstNodeId, "Name")' class="form-control input-group-lg"></select>
+            </div>
+            <div class="form-group col-xs-2">
+                <input type="checkbox" asp-for="IsDirected" />
+                <label><b>-></b></label>
+            </div>
+            <div class="form-group col-xs-5">
+                <label asp-for="Nodes" class="sr-only"></label>
+                <select asp-for="@Model.Edge.NodesPair.RelatedNodeId" asp-items='Model.Nodes.ToSelectListItem(Model.Edge.NodesPair.RelatedNodeId, "Name")' class="form-control input-group-lg"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Edge.Length" class="control-label"></label>
+                <input asp-for="Edge.Length" class="form-control" />
+                <span asp-validation-for="Edge.Length" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label> <b>(minutes)</b>
+                <input asp-for="Duration" class="form-control" min="0" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Edge.Price" class="control-label"></label>
+                <input asp-for="Edge.Price" class="form-control" />
+                <span asp-validation-for="Edge.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Edge.ServiceClass" class="control-label"></label>
+                <input asp-for="Edge.ServiceClass" class="form-control" />
+                <span asp-validation-for="Edge.ServiceClass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Edge.TimetableString" class="control-label"></label>
+                <input asp-for="Edge.TimetableString" class="form-control" />
+                <span asp-validation-for="Edge.TimetableString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

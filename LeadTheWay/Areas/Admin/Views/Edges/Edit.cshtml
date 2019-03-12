@@ -1,0 +1,60 @@
+﻿@model LeadTheWay.GraphLayer.Link.Domain.Models.IntercityLink
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>IntercityLink</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="EdgeString" class="control-label"></label>
+                <input asp-for="EdgeString" class="form-control" />
+                <span asp-validation-for="EdgeString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Length" class="control-label"></label>
+                <input asp-for="Length" class="form-control" />
+                <span asp-validation-for="Length" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DurationTicks" class="control-label"></label>
+                <input asp-for="DurationTicks" class="form-control" />
+                <span asp-validation-for="DurationTicks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServiceClass" class="control-label"></label>
+                <input asp-for="ServiceClass" class="form-control" />
+                <span asp-validation-for="ServiceClass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimetableString" class="control-label"></label>
+                <input asp-for="TimetableString" class="form-control" />
+                <span asp-validation-for="TimetableString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
