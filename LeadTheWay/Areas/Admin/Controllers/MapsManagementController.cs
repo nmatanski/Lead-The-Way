@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LeadTheWay.Areas.Admin.Models.DTOs;
 using LeadTheWay.Data;
@@ -131,9 +132,11 @@ namespace LeadTheWay.Areas.Admin.Controllers
 
                 bool isNotDirected = edge.EdgeString.Contains("<->");
                 var nodes = isNotDirected ? edge.EdgeString.Split(new string[] { "<->" }, StringSplitOptions.None) : edge.EdgeString.Split(new string[] { "->" }, StringSplitOptions.None);
-                edge.NodesPair = new VerticesPair();
-                edge.NodesPair.FirstNodeId = (await db.TransportVertices.Where(n => n.Name == nodes[0]).FirstOrDefaultAsync()).Id;
-                edge.NodesPair.RelatedNodeId = (await db.TransportVertices.Where(n => n.Name == nodes[1]).FirstOrDefaultAsync()).Id;
+                edge.NodesPair = new VerticesPair
+                {
+                    FirstNodeId = (await db.TransportVertices.Where(n => n.Name == nodes[0]).FirstOrDefaultAsync()).Id,
+                    RelatedNodeId = (await db.TransportVertices.Where(n => n.Name == nodes[1]).FirstOrDefaultAsync()).Id
+                };
 
                 var firstNode = await db.TransportVertices.Where(n => n.Id == edge.NodesPair.FirstNodeId).FirstOrDefaultAsync();
                 var relatedNode = await db.TransportVertices.Where(n => n.Id == edge.NodesPair.RelatedNodeId).FirstOrDefaultAsync();
@@ -189,15 +192,49 @@ namespace LeadTheWay.Areas.Admin.Controllers
                 {
                     var mapDB = await db.GraphMaps.Where(m => m.Name == GraphMapVM.GraphMap.Name).FirstOrDefaultAsync();
 
-                    //
+                    ///TODO: comma between old string from db and new string added to the db (but working without it)
+                    mapDB.NodeHistoryString = mapDB.NodeHistoryString ?? "";
+
+                    var vertices = Regex.Replace(GraphMapVM.GraphMap.NodeHistoryString, @"\s+", "").Split(',');
+                    if (!vertices.Any(mapDB.NodeHistoryString.Contains))
+                    {
+                        mapDB.NodeHistoryString += string.IsNullOrWhiteSpace(mapDB.NodeHistoryString) ? GraphMapVM.GraphMap.NodeHistoryString : $", { GraphMapVM.GraphMap.NodeHistoryString }";
+                    }
+                    else if (!vertices.All(mapDB.NodeHistoryString.Contains))
+                    {
+                        foreach (var vertex in vertices)
+                        {
+                            if (!mapDB.NodeHistoryString.Contains(vertex))
+                            {
+                                mapDB.NodeHistoryString += $", {vertex}";
+                            }
+                        }
+                    }
+
+                    mapDB.EdgeHistoryString += string.IsNullOrWhiteSpace(mapDB.EdgeHistoryString) ? GraphMapVM.GraphMap.EdgeHistoryString : $", {GraphMapVM.GraphMap.EdgeHistoryString}";
+
+                    ///                    //
                     //tests
                     ///TODO: GraphString = Graph to string
                     string ns = "";
-                    foreach (var kvp in GraphMapVM.GraphMap.Graph.Map)
+                    //foreach (var kvp in GraphMapVM.GraphMap.Graph.Map)
+                    //{
+                    //    ns += $"*{kvp.Key}({kvp.Value.Description})";
+                    //}
+                    foreach (var nodeName in Regex.Replace(mapDB.NodeHistoryString, @"\s+", "").Split(','))
                     {
-                        ns += $"*{kvp.Key}({kvp.Value.Description})";
+                        if (GraphMapVM.GraphMap.Graph.Map.TryGetValue(nodeName, out var node))
+                        {
+                            ns += $"*{nodeName}({node.Description})";
+                        }
                     }
+
                     string es = "";
+                    //foreach (var item in GraphMapVM.GraphMap.EdgeHistory)
+                    //{
+                    //    var tempEdge = await db.IntercityLinks.Where(e => e.EdgeString == item).FirstOrDefaultAsync();
+                    //    es += $"#{item}({tempEdge.Length}, {tempEdge.DurationTicks}, {tempEdge.Price}, {tempEdge.ServiceClass})";
+                    //}
                     foreach (var item in GraphMapVM.GraphMap.EdgeHistory)
                     {
                         var tempEdge = await db.IntercityLinks.Where(e => e.EdgeString == item).FirstOrDefaultAsync();
@@ -209,14 +246,13 @@ namespace LeadTheWay.Areas.Admin.Controllers
                     GraphMapVM.GraphMap.GraphString = gstring;
                     //end of tests
                     //
-
-                    ///TODO: comma between old string from db and new string added to the db (but working without it)
                     mapDB.GraphString += GraphMapVM.GraphMap.GraphString;
-                    mapDB.NodeHistoryString += GraphMapVM.GraphMap.NodeHistoryString;
-                    mapDB.EdgeHistoryString += GraphMapVM.GraphMap.EdgeHistoryString;
+
 
 
                     ///TODO: Duplicating all Nodes when adding Edges to DB (possible solution: check db.nodehistory, db.edgehistory, not graphmapvm.nodehistory and not graphmapvm.edgehistory
+                    //var graphStringLines = mapDB.GraphString.Split(new[] { "*", "#" }, StringSplitOptions.RemoveEmptyEntries);
+                    mapDB.GraphString = string.Join("", Regex.Split(mapDB.GraphString, @"(?=[*#])").Distinct().ToList());
 
 
                     //db.Update(GraphMapVM.GraphMap);
