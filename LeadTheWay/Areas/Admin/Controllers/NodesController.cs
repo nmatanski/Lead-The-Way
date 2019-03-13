@@ -57,7 +57,7 @@ namespace LeadTheWay.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            ///TODO: Check if NodeString has been updating here and GraphString's not been updating after NodeString Update
             var node = await db.TransportVertices.FindAsync(id);
 
             if (node == null)

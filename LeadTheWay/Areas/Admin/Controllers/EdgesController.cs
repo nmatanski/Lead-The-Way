@@ -102,6 +102,7 @@ namespace LeadTheWay.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                ///TODO: Update the EdgeString as well!!! (GraphString not updating after Update Edge)
                 db.Update(edge);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
