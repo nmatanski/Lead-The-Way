@@ -18,10 +18,10 @@ namespace LeadTheWay.Models
         public string GraphString { get; set; }
 
         [NotMapped]
-        public GraphMap GraphEntity { get; set; }
+        public GraphMap Map { get; set; }
 
-        [NotMapped]
-        public bool IsAdmin { get; set; }
+        //[NotMapped]
+        //public bool IsAdmin { get; set; }
 
 
         //public ApplicationUser(string name, string graphString) : base()
