@@ -12,7 +12,6 @@ using LeadTheWay.GraphLayer.Vertex.Service;
 using LeadTheWay.Models.ViewModels;
 using LeadTheWay.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

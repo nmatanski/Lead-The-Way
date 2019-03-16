@@ -23,10 +23,10 @@ namespace LeadTheWay.GraphLayer.Map.Domain.Models
 
         public string NodeHistoryString { get; set; }
 
+        public string EdgeHistoryString { get; set; }
+
         [NotMapped]
         public List<string> NodeHistory { get; set; }
-
-        public string EdgeHistoryString { get; set; }
 
         [NotMapped]
         public List<string> EdgeHistory { get; set; }

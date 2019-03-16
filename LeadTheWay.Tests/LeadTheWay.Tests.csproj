@@ -1,18 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>aspnet-LeadTheWay-DE5B6304-B856-488F-A22B-C127C62EBD6A</UserSecretsId>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="coverlet.msbuild" Version="2.6.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.7" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="NUnit" Version="3.11.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
+    <PackageReference Include="ReportGenerator.Core" Version="4.0.15" />
     <PackageReference Include="StyleCop" Version="6.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -21,14 +25,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Guest\Models\" />
-    <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Areas\User\Models\" />
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\LeadTheWay\LeadTheWay.csproj" />
   </ItemGroup>
 
 	<PropertyGroup>
 		<CodeAnalysisRuleSet>ca.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
- 
 </Project>
+
