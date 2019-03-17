@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using LeadTheWay.Data;
 using LeadTheWay.GraphLayer.Vertex.Domain.Models;
 using LeadTheWay.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeadTheWay.Areas.Admin.Controllers
@@ -16,7 +13,6 @@ namespace LeadTheWay.Areas.Admin.Controllers
     public class NodesController : Controller
     {
         private readonly ApplicationDbContext db;
-
 
         public NodesController(ApplicationDbContext db)
         {
@@ -47,6 +43,7 @@ namespace LeadTheWay.Areas.Admin.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(node);
         }
 
@@ -57,7 +54,7 @@ namespace LeadTheWay.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ///TODO: Check if NodeString has been updating here and GraphString's not been updating after NodeString Update
+
             var node = await db.TransportVertices.FindAsync(id);
 
             if (node == null)
@@ -82,8 +79,9 @@ namespace LeadTheWay.Areas.Admin.Controllers
             {
                 db.Update(node);
                 await db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index)); 
+                return RedirectToAction(nameof(Index));
             }
+
             return View(node);
         }
 

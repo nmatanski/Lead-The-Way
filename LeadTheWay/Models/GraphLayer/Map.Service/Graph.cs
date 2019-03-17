@@ -1,14 +1,11 @@
 ﻿using LeadTheWay.GraphLayer.Link.Domain.Models;
 using LeadTheWay.GraphLayer.Link.Service;
-using LeadTheWay.GraphLayer.Map.Domain.Models;
 using LeadTheWay.GraphLayer.Map.Domain.Search;
 using LeadTheWay.GraphLayer.Map.Service.Search.Services;
 using LeadTheWay.GraphLayer.Vertex.Service;
 using LeadTheWay.Models.GraphLayer.Map.Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LeadTheWay.GraphLayer.Map.Service
 {
@@ -34,6 +31,9 @@ namespace LeadTheWay.GraphLayer.Map.Service
 
         public void AddEdge(string start, string end, double length, TimeSpan duration, double price, byte serviceClass, Timetable timetable)
         {
+            ///TODO: better solution from MapController before AddEdge call
+            start = start.Replace("<", "").Replace(">", "").Replace("-", "");
+            ///
             if (Map.ContainsKey(start) && Map.ContainsKey(end))
             {
                 Edge edge = new Edge(Map[start], Map[end], length, duration, price, serviceClass, timetable); //type

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LeadTheWay.Data;
-using LeadTheWay.GraphLayer.Map.Domain.Models;
+using LeadTheWay.GraphLayer.Map.Service;
 using LeadTheWay.GraphLayer.Vertex.Service;
 using LeadTheWay.Models;
-using LeadTheWay.Utility;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +20,6 @@ namespace LeadTheWay.Areas.User.Controllers
 
         private readonly UserManager<IdentityUser> identityUserManager;
 
-
         public MapController(ApplicationDbContext db, UserManager<IdentityUser> identityUserManager)
         {
             this.db = db;
@@ -35,7 +31,12 @@ namespace LeadTheWay.Areas.User.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await GetApplicationUserWithDefaultGraphMapFromClaimsPrincipalUser(User);
-            
+
+            ///TODO:
+            //var result = Graph.Search(new CheapestPathSearch(user.Map.Graph), "Plovdiv", "Varna");
+            //var cheapest = GraphUtil.ResultCheapest;
+            //cheapest += result + '\n';
+
             return View(user);
         }
 
@@ -45,7 +46,7 @@ namespace LeadTheWay.Areas.User.Controllers
 
             var user = await db.ApplicationUsers.Where(u => u.UserName == identityUser.UserName).FirstOrDefaultAsync();
             user.Map = db.GraphMaps.Where(m => m.IsDefault).FirstOrDefault();
-            user.Map.Graph = new GraphLayer.Map.Service.Graph
+            user.Map.Graph = new Graph
             {
                 Id = user.Map.Id,
                 Name = user.Map.Name,
@@ -69,6 +70,7 @@ namespace LeadTheWay.Areas.User.Controllers
                         {
                             node = new Node(tempLine);
                         }
+
                         user.Map.Graph.AddNode(node);
                         break;
                     case '#':

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using LeadTheWay.Data;
 using LeadTheWay.GraphLayer.Link.Domain.Models;
 using LeadTheWay.Models.ViewModels;
 using LeadTheWay.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,10 +50,6 @@ namespace LeadTheWay.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(EdgeVM);
-            //}
             var edge = EdgeVM.Edge;
             var firstNode = await db.TransportVertices.Where(n => n.Id == edge.NodesPair.FirstNodeId).FirstOrDefaultAsync();
             var relatedNode = await db.TransportVertices.Where(n => n.Id == edge.NodesPair.RelatedNodeId).FirstOrDefaultAsync();
@@ -107,6 +100,7 @@ namespace LeadTheWay.Areas.Admin.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(edge);
         }
 

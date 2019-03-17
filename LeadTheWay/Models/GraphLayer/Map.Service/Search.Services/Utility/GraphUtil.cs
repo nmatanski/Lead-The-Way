@@ -1,7 +1,5 @@
 ﻿using LeadTheWay.GraphLayer.Link.Service;
 using LeadTheWay.GraphLayer.Vertex.Service;
-using System;
-using System.Collections.Generic;
 
 namespace LeadTheWay.GraphLayer.Map.Service.Search.Services.Utility
 {

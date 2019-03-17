@@ -37,31 +37,19 @@ namespace LeadTheWay.Areas.Admin.Controllers
                 Edges = db.IntercityLinks.ToList()
             };
             GraphMapVM.GraphMap.Graph = new Graph();
-            //GraphMapVM.GraphMap.CurrentEdgeIdToAdd = 0; ///TODO: test?
+            //GraphMapVM.GraphMap.CurrentEdgeIdToAdd = 0; ///TODO: ?
         }
 
 
         // GET: MapsManagement
         public IActionResult Index()
         {
-            //if (db.GraphMaps.Any())
-            //{
-            //    return View(db.GraphMaps.ToList());
-            //}
-
-            //return View(null);
-
             return View(db.GraphMaps.ToList());
         }
 
         // GET: MapsManagement/Create
         public IActionResult Create()
         {
-            //the Index table
-            //Add node list with all created nodes in the DB and add button which adds the node to the nodehistory and updates the graphstring with the node
-            //Add edge list with all creataed edges in the DB and add button which adds the edge to the edgehistory and updates the graphstring with the edge
-
-
             return View();
         }
 
@@ -83,6 +71,7 @@ namespace LeadTheWay.Areas.Admin.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(graphDTO);
         }
 
@@ -102,11 +91,11 @@ namespace LeadTheWay.Areas.Admin.Controllers
             }
 
             //test
-            graph.GraphString = graph.GraphString ?? "";
+            graph.GraphString = graph.GraphString ?? string.Empty;
             graph.Graph = graph.Graph ?? new Graph();
-            graph.NodeHistoryString = graph.NodeHistoryString ?? "";
+            graph.NodeHistoryString = graph.NodeHistoryString ?? string.Empty;
             graph.NodeHistory = graph.NodeHistory ?? new List<string>();
-            graph.EdgeHistoryString = graph.EdgeHistoryString ?? "";
+            graph.EdgeHistoryString = graph.EdgeHistoryString ?? string.Empty;
             graph.EdgeHistory = graph.EdgeHistory ?? new List<string>();
             //end of test
 
@@ -142,11 +131,11 @@ namespace LeadTheWay.Areas.Admin.Controllers
 
                 var graph = GraphMapVM.GraphMap;
 
-                graph.GraphString = graph.GraphString ?? "";
+                graph.GraphString = graph.GraphString ?? string.Empty;
                 graph.Graph = graph.Graph ?? new Graph();
-                graph.NodeHistoryString = graph.NodeHistoryString ?? "";
+                graph.NodeHistoryString = graph.NodeHistoryString ?? string.Empty;
                 graph.NodeHistory = graph.NodeHistory ?? new List<string>();
-                graph.EdgeHistoryString = graph.EdgeHistoryString ?? "";
+                graph.EdgeHistoryString = graph.EdgeHistoryString ?? string.Empty;
                 graph.EdgeHistory = graph.EdgeHistory ?? new List<string>();
 
 
@@ -159,6 +148,7 @@ namespace LeadTheWay.Areas.Admin.Controllers
 
                     GraphMapVM.GraphMap.Graph.AddNode(new Node(firstNode.Name, firstNode.Description));
                 }
+
                 if (!GraphMapVM.GraphMap.NodeHistory.Exists(n => string.Equals(n, relatedNode.Name)))
                 {
                     bool isEmpty = GraphMapVM.GraphMap.NodeHistory.Count == 0;
@@ -191,10 +181,9 @@ namespace LeadTheWay.Areas.Admin.Controllers
                 {
                     var mapDB = await db.GraphMaps.Where(m => m.Name == GraphMapVM.GraphMap.Name).FirstOrDefaultAsync();
 
-                    ///TODO: comma between old string from db and new string added to the db (but working without it)
-                    mapDB.NodeHistoryString = mapDB.NodeHistoryString ?? "";
+                    mapDB.NodeHistoryString = mapDB.NodeHistoryString ?? string.Empty;
 
-                    var vertices = Regex.Replace(GraphMapVM.GraphMap.NodeHistoryString, @"\s+", "").Split(',');
+                    var vertices = Regex.Replace(GraphMapVM.GraphMap.NodeHistoryString, @"\s+", string.Empty).Split(',');
                     if (!vertices.Any(mapDB.NodeHistoryString.Contains))
                     {
                         mapDB.NodeHistoryString += string.IsNullOrWhiteSpace(mapDB.NodeHistoryString) ? GraphMapVM.GraphMap.NodeHistoryString : $", { GraphMapVM.GraphMap.NodeHistoryString }";
@@ -215,12 +204,8 @@ namespace LeadTheWay.Areas.Admin.Controllers
                     ///                    //
                     //tests
                     ///TODO: GraphString = Graph to string
-                    string ns = "";
-                    //foreach (var kvp in GraphMapVM.GraphMap.Graph.Map)
-                    //{
-                    //    ns += $"*{kvp.Key}({kvp.Value.Description})";
-                    //}
-                    foreach (var nodeName in Regex.Replace(mapDB.NodeHistoryString, @"\s+", "").Split(','))
+                    string ns = string.Empty;
+                    foreach (var nodeName in Regex.Replace(mapDB.NodeHistoryString, @"\s+", string.Empty).Split(','))
                     {
                         if (GraphMapVM.GraphMap.Graph.Map.TryGetValue(nodeName, out var node))
                         {
@@ -228,7 +213,7 @@ namespace LeadTheWay.Areas.Admin.Controllers
                         }
                     }
 
-                    string es = "";
+                    string es = string.Empty;
                     //foreach (var item in GraphMapVM.GraphMap.EdgeHistory)
                     //{
                     //    var tempEdge = await db.IntercityLinks.Where(e => e.EdgeString == item).FirstOrDefaultAsync();
@@ -239,20 +224,17 @@ namespace LeadTheWay.Areas.Admin.Controllers
                         var tempEdge = await db.IntercityLinks.Where(e => e.EdgeString == item).FirstOrDefaultAsync();
                         es += $"#{item}({tempEdge.Length}, {tempEdge.DurationTicks}, {tempEdge.Price}, {tempEdge.ServiceClass})";
                     }
+
                     string gstring = ns + es;
                     ///TODO: Fix it!
-                    mapDB.GraphString = mapDB.GraphString ?? "";
+                    mapDB.GraphString = mapDB.GraphString ?? string.Empty;
                     GraphMapVM.GraphMap.GraphString = gstring;
                     //end of tests
                     //
                     mapDB.GraphString += GraphMapVM.GraphMap.GraphString;
 
-
-
-                    ///TODO: Duplicating all Nodes when adding Edges to DB (possible solution: check db.nodehistory, db.edgehistory, not graphmapvm.nodehistory and not graphmapvm.edgehistory
                     //var graphStringLines = mapDB.GraphString.Split(new[] { "*", "#" }, StringSplitOptions.RemoveEmptyEntries);
-                    mapDB.GraphString = string.Join("", Regex.Split(mapDB.GraphString, @"(?=[*#])").Distinct().ToList());
-
+                    mapDB.GraphString = string.Join(string.Empty, Regex.Split(mapDB.GraphString, @"(?=[*#])").Distinct().ToList());
 
                     //db.Update(GraphMapVM.GraphMap);
                     await db.SaveChangesAsync();
@@ -260,12 +242,14 @@ namespace LeadTheWay.Areas.Admin.Controllers
                 }
                 else
                 {
-                    return NotFound(); ///TODO: Better approach
+                    return NotFound(); ///TODO: Better approach is needed
                 }
+
                 //db.Update(GraphMapVM.GraphMap);
                 //await db.SaveChangesAsync();
                 //return RedirectToAction(nameof(Index));
             }
+
             return View(GraphMapVM);
         }
 

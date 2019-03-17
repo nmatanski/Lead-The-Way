@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using LeadTheWay.GraphLayer.Link.Domain.Models;
+using LeadTheWay.GraphLayer.Map.Domain.Models;
+using LeadTheWay.GraphLayer.Vertex.Domain.Models;
 using LeadTheWay.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using LeadTheWay.GraphLayer.Map.Domain.Models;
-using LeadTheWay.GraphLayer.Link.Domain.Models;
-using LeadTheWay.GraphLayer.Vertex.Domain.Models;
 
 namespace LeadTheWay.Data
 {

@@ -1,9 +1,6 @@
 ﻿using LeadTheWay.GraphLayer.Link.Domain.Models;
 using LeadTheWay.GraphLayer.Map.Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LeadTheWay.Models.ViewModels
 {

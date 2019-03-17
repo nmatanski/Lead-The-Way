@@ -1,13 +1,12 @@
 ﻿using LeadTheWay.GraphLayer.Link.Service;
 using LeadTheWay.GraphLayer.Map.Domain.Search;
-using LeadTheWay.GraphLayer.Map.Service;
 using LeadTheWay.GraphLayer.Map.Service.Search.Services.Utility;
 using LeadTheWay.GraphLayer.Vertex.Service;
 using System.Collections.Generic;
 
 namespace LeadTheWay.GraphLayer.Map.Service.Search.Services
 {
-    internal class CheapestPathSearch : ISearch
+    public class CheapestPathSearch : ISearch
     {
         private Graph graph;
 
@@ -50,6 +49,7 @@ namespace LeadTheWay.GraphLayer.Map.Service.Search.Services
                         //relatedNode.Depth = temp.Depth + 1; // ?
                         list.Insert(0, relatedNode);
                     }
+
                     temp.IsExpanded = true;
                 }
             }
