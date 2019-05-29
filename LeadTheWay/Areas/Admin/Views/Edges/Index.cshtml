@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-6">
-        <h2 class="text-info">Edges List</h2>
+        <h2 class="text-info">Links (Edges) between stations</h2>
     </div>
     <div class="col-6 text-right">
         <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Edge</a>
@@ -19,7 +19,7 @@
         <thead>
             <tr class="table-info">
                 <th>
-                    @Html.DisplayNameFor(model => model.EdgeString)
+                    Edge String
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Length)
@@ -31,10 +31,10 @@
                     @Html.DisplayNameFor(model => model.Price)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ServiceClass)
+                    Service Class (1-5 stars)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.TimetableString)
+                    Timetable String (not implemented yet)
                 </th>
                 <th></th>
             </tr>
