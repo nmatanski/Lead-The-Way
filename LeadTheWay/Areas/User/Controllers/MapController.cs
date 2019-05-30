@@ -40,9 +40,9 @@ namespace LeadTheWay.Areas.User.Controllers
             return View(user);
         }
 
-        private async Task<ApplicationUser> GetApplicationUserWithDefaultGraphMapFromClaimsPrincipalUser(System.Security.Claims.ClaimsPrincipal User)
+        private async Task<ApplicationUser> GetApplicationUserWithDefaultGraphMapFromClaimsPrincipalUser(System.Security.Claims.ClaimsPrincipal userPrincipal)
         {
-            var identityUser = await identityUserManager.GetUserAsync(User);
+            var identityUser = await identityUserManager.GetUserAsync(userPrincipal);
 
             var user = await db.ApplicationUsers.Where(u => u.UserName == identityUser.UserName).FirstOrDefaultAsync();
             user.Map = db.GraphMaps.Where(m => m.IsDefault).FirstOrDefault();
