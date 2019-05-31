@@ -1,29 +1,75 @@
 ﻿@using LeadTheWay.GraphLayer.Map.Service;
 @using LeadTheWay.GraphLayer.Map.Service.Search.Services;
 @using LeadTheWay.GraphLayer.Map.Service.Search.Services.Utility;
+@using LeadTheWay.Models.ViewModels;
+@using LeadTheWay.Extensions;
 
-@model ApplicationUser
+@model MapServiceViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2></h2>
 
 @*@if (User.IsInRole(StaticDetails.AdminUser))
     {
         <a class="nav-link" asp-area="Admin" asp-controller="MapsManagement" asp-action="Index">Manage Maps</a>
     }*@
 
-<h2 style="padding:100px;">@Model.Map.GraphString</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div class="form-group">
+                <label asp-for="DeparturePlace" class="control-label">Departure from:</label>
+                <input asp-for="DeparturePlace" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ArrivalPlace" class="control-label">Arrival at:</label>
+                <input asp-for="ArrivalPlace" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" style="padding-right:10px">Add intermediate points:</label>
+                <input type="checkbox" id="checkbox" value="true" style="-webkit-transform: scale(2);" onclick="ShowHideDiv(this)" />
+            </div>
+            <div class="form-group" id="intermediate" style="display:none">
+                <label asp-for="IntermediatePlace" class="control-label">Intermediate place/s:</label>
+                <input asp-for="IntermediatePlace" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<h1>@Model.DeparturePlace and @Model.ArrivalPlace and interm: @Model.IntermediatePlace</h1>
+
+<h2 style="padding:100px;">@Model.User.Map.GraphString</h2>
 <h3>Plovdiv - Ruse Path</h3>
-@{
-    var result = Graph.Search(new CheapestPathSearch(Model.Map.Graph), "Plovdiv", "Ruse");
+
+@if (Model.IntermediatePlace != null)
+{
+    var result = Graph.Search(new PathWithIntermediatePointsSearch(Model.User.Map.Graph), Model.DeparturePlace, Model.ArrivalPlace, 
+        new List<LeadTheWay.GraphLayer.Vertex.Service.Node>() { Model.User.Map.Graph.GetNodeByName(Model.IntermediatePlace) });
     var cheapest = GraphUtil.ResultCheapest;
     //cheapest = cheapest.Substring(0, (int)(cheapest.Length / 2));
     cheapest += result;
+    <h4 style="padding-right:49px">@cheapest</h4>
+}
+else if (Model.DeparturePlace != null && Model.ArrivalPlace != null)
+{
+    var result = Graph.Search(new CheapestPathSearch(Model.User.Map.Graph), Model.DeparturePlace, Model.ArrivalPlace);
+    var cheapest = GraphUtil.ResultCheapest;
+    //cheapest = cheapest.Substring(0, (int)(cheapest.Length / 2));
+    cheapest += result;
+    <h4 style="padding-right:49px">@cheapest</h4>
 }
 
-<h4 style="padding-right:49px">@cheapest</h4>
-
 <br /><br />
+<script type="text/javascript">
+    function ShowHideDiv(checkbox) {
+        var div = document.getElementById("intermediate");
+        div.style.display = checkbox.checked ? "block" : "none";
+    }
+</script>

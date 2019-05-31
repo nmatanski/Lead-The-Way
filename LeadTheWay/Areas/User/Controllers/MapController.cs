@@ -6,6 +6,7 @@ using LeadTheWay.Data;
 using LeadTheWay.GraphLayer.Map.Service;
 using LeadTheWay.GraphLayer.Vertex.Service;
 using LeadTheWay.Models;
+using LeadTheWay.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,24 +21,37 @@ namespace LeadTheWay.Areas.User.Controllers
 
         private readonly UserManager<IdentityUser> identityUserManager;
 
+        [BindProperty]
+        public MapServiceViewModel MapVM { get; set; }
+
         public MapController(ApplicationDbContext db, UserManager<IdentityUser> identityUserManager)
         {
             this.db = db;
             this.identityUserManager = identityUserManager;
-
+            MapVM = new MapServiceViewModel();
         }
 
-
+        // GET: Map
         public async Task<IActionResult> Index()
         {
-            var user = await GetApplicationUserWithDefaultGraphMapFromClaimsPrincipalUser(User);
-
             ///TODO:
             //var result = Graph.Search(new CheapestPathSearch(user.Map.Graph), "Plovdiv", "Varna");
             //var cheapest = GraphUtil.ResultCheapest;
             //cheapest += result + '\n';
 
-            return View(user);
+            MapVM.User = await GetApplicationUserWithDefaultGraphMapFromClaimsPrincipalUser(User);
+
+            ///TODO: To check if the departure/arrival names are set and to display the algorithm results
+
+            return View(MapVM);
+        }
+
+        // POST: Map
+        [HttpPost, ActionName("Index")]
+        public async Task<IActionResult> IndexPost()
+        {
+            MapVM.User = await GetApplicationUserWithDefaultGraphMapFromClaimsPrincipalUser(User);
+            return View(MapVM);
         }
 
         private async Task<ApplicationUser> GetApplicationUserWithDefaultGraphMapFromClaimsPrincipalUser(System.Security.Claims.ClaimsPrincipal userPrincipal)
