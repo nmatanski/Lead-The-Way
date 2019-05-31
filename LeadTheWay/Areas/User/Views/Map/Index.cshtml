@@ -43,33 +43,23 @@
     </div>
 </div>
 
-<h1>@Model.DeparturePlace and @Model.ArrivalPlace and interm: @Model.IntermediatePlace</h1>
-
 <h2 style="padding:100px;">@Model.User.Map.GraphString</h2>
-<h3>Plovdiv - Ruse Path</h3>
-
-@if (Model.IntermediatePlace != null)
-{
-    var result = Graph.Search(new PathWithIntermediatePointsSearch(Model.User.Map.Graph), Model.DeparturePlace, Model.ArrivalPlace, 
-        new List<LeadTheWay.GraphLayer.Vertex.Service.Node>() { Model.User.Map.Graph.GetNodeByName(Model.IntermediatePlace) });
-    var cheapest = GraphUtil.ResultCheapest;
-    //cheapest = cheapest.Substring(0, (int)(cheapest.Length / 2));
-    cheapest += result;
-    <h4 style="padding-right:49px">@cheapest</h4>
-}
-else if (Model.DeparturePlace != null && Model.ArrivalPlace != null)
-{
-    var result = Graph.Search(new CheapestPathSearch(Model.User.Map.Graph), Model.DeparturePlace, Model.ArrivalPlace);
-    var cheapest = GraphUtil.ResultCheapest;
-    //cheapest = cheapest.Substring(0, (int)(cheapest.Length / 2));
-    cheapest += result;
-    <h4 style="padding-right:49px">@cheapest</h4>
-}
+<h3>@Model.DeparturePlace - @Model.ArrivalPlace Path (intermediate point @Model.IntermediatePlace):</h3>
+<h4>@Model.PathShort</h4>
+<h4>Price: BGN @string.Format("{0:F}", Model.PathPrice)</h4>
+<h4>Length: @Model.PathLength km</h4>
 
 <br /><br />
 <script type="text/javascript">
     function ShowHideDiv(checkbox) {
         var div = document.getElementById("intermediate");
+        if (checkbox.checked) {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+            div.innerHTML = "";
+        }
         div.style.display = checkbox.checked ? "block" : "none";
     }
 </script>

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LeadTheWay.Data;
 using LeadTheWay.GraphLayer.Map.Service;
+using LeadTheWay.GraphLayer.Map.Service.Search.Services;
+using LeadTheWay.GraphLayer.Map.Service.Search.Services.Utility;
 using LeadTheWay.GraphLayer.Vertex.Service;
 using LeadTheWay.Models;
 using LeadTheWay.Models.ViewModels;
@@ -51,6 +54,56 @@ namespace LeadTheWay.Areas.User.Controllers
         public async Task<IActionResult> IndexPost()
         {
             MapVM.User = await GetApplicationUserWithDefaultGraphMapFromClaimsPrincipalUser(User);
+
+            string result = string.Empty;
+            if (!string.IsNullOrEmpty(MapVM.IntermediatePlace))
+            {
+                result = Graph.Search(
+                    new PathWithIntermediatePointsSearch(MapVM.User.Map.Graph),
+                    MapVM.DeparturePlace,
+                    MapVM.ArrivalPlace,
+                    new List<Node>() { MapVM.User.Map.Graph.GetNodeByName(MapVM.IntermediatePlace) });
+            }
+            else if (MapVM.DeparturePlace != null && MapVM.ArrivalPlace != null)
+            {
+                result = Graph.Search(new CheapestPathSearch(MapVM.User.Map.Graph), MapVM.DeparturePlace, MapVM.ArrivalPlace);
+            }
+
+            GraphUtil.ResultCheapest += result;
+            MapVM.Path = GraphUtil.ResultCheapest;
+
+            //var region = new List<string>() { "Varna", "Plovdiv|" };
+            //int from = MapVM.Path.IndexOf(region[0]) + region[0].Length;
+            //int to = MapVM.Path.LastIndexOf(region[1]);
+            //MapVM.PathShort = MapVM.Path.Substring(from, to - from);
+
+            var sub = MapVM.Path.Substring(MapVM.Path.LastIndexOf("Cost"));
+            sub = sub.Substring(sub.IndexOf("\n") + "\n".Length).Split("\n".ToCharArray()).First();
+            sub = sub.Remove(sub.Length - 1);
+            var split = sub.Split(new string[] { "<-" }, StringSplitOptions.None).ToList();
+            split.Reverse();
+            MapVM.PathShort = string.Join("->", split.ToArray());
+            var stations = new List<Node>();
+            foreach (var townName in split)
+            {
+                stations.Add(MapVM.User.Map.Graph.GetNodeByName(townName));
+            }
+
+            double sum = 0;
+            for (int i = 0; i < stations.Count - 1; i++)
+            {
+                foreach (var link in stations[i].Edges)
+                {
+                    if (link.RelatedNode.Name.Equals(stations[i + 1].Name))
+                    {
+                        sum += link.Price;
+                    }
+                }
+            }
+
+            MapVM.PathPrice = Math.Round(sum, 2);
+            MapVM.PathLength = stations[stations.Count - 1].CurrentLength;
+
             return View(MapVM);
         }
 
