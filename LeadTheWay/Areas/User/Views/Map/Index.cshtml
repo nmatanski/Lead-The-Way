@@ -16,7 +16,25 @@
     {
         <a class="nav-link" asp-area="Admin" asp-controller="MapsManagement" asp-action="Index">Manage Maps</a>
     }*@
-
+<img src="~/images/Map.png" style="position: absolute; max-width:30%; margin-left: 400px; opacity:0.75" />
+<div style="position: absolute; margin-left: 1000px; border-left: 2px solid gray;">
+    <div style="margin-left:10px">
+        Plovdiv &lt;-&gt; Sofia 144km, BGN 14<br />
+        Plovdiv &lt;-&gt; Burgas 253km, BGN 18<br />
+        Plovdiv &lt;-&gt; Haskovo 97km, BGN 4<br />
+        Plovdiv &lt;-&gt; Blagoevgrad, 256km, BGN 9<br />
+        Sofia &lt;-&gt; Blagoevgrad, 102km, BGN 7.50<br />
+        Sofia &lt;-&gt; Varna, 509km, BGN 30<br />
+        Sofia -&gt; Vidin, 193km, BGN 5<br />
+        Sofia -&gt; Pleven, 163km, BGN 6<br />
+        Varna &lt;-&gt; Burgas, 131km, BGN 12.50<br />
+        Varna &lt;-&gt; Pleven, 300km, BGN 6.50<br />
+        Burgas &lt;-&gt; Haskovo, 212km, BGN 12<br />
+        Vidin -&gt; Pleven, 204km, BGN 5<br />
+        Pleven &lt;-&gt; Ruse, 151km, BGN 10.50<br />
+        Ruse &lt;-&gt; Varna, 192km, BGN 7<br />
+    </div>
+</div>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Index">
@@ -43,7 +61,8 @@
     </div>
 </div>
 
-<h2 style="padding:100px;">@Model.User.Map.GraphString</h2>
+@*<h2 style="padding:100px;">@Model.User.Map.GraphString</h2>*@
+
 <h3>@Model.DeparturePlace - @Model.ArrivalPlace Path (intermediate point @Model.IntermediatePlace):</h3>
 <h4>@Model.PathShort</h4>
 <h4>Price: BGN @string.Format("{0:F}", Model.PathPrice)</h4>
